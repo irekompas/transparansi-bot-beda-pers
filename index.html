@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Chatbot sederhana dengan sumber jawaban dari Google Spreadsheet" />
+    <title>SheetBot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="chat-card" aria-label="Chatbot">
+        <header class="chat-header">
+          <div class="bot-avatar" aria-hidden="true">S</div>
+          <div>
+            <h1>SheetBot</h1>
+            <p><span id="statusDot" class="status-dot loading"></span><span id="statusText">Memuat data...</span></p>
+          </div>
+          <button id="reloadButton" class="icon-button" type="button" title="Muat ulang data" aria-label="Muat ulang data">↻</button>
+        </header>
+
+        <div id="messages" class="messages" role="log" aria-live="polite"></div>
+
+        <div id="suggestions" class="suggestions" aria-label="Saran pertanyaan"></div>
+
+        <form id="chatForm" class="chat-form">
+          <label class="sr-only" for="questionInput">Ketik pertanyaan</label>
+          <input id="questionInput" name="question" type="text" autocomplete="off" placeholder="Ketik pertanyaan..." maxlength="300" />
+          <button type="submit" aria-label="Kirim pertanyaan">➤</button>
+        </form>
+      </section>
+      <p class="credit">Jawaban diperbarui langsung dari Google Spreadsheet</p>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
