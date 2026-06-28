@@ -1,46 +1,54 @@
-# SheetBot
+# Transparansi Bot Beda Pers
 
-Chatbot web sederhana yang mengambil data transparansi berita dari Google Spreadsheet. Tidak membutuhkan backend atau instalasi paket.
+Chatbot dwibahasa Indonesia–Inggris yang membaca data transparansi editorial dari Google Spreadsheet. Aplikasi ini statis, responsif, dan siap dipasang melalui iframe.
 
-## Spreadsheet yang digunakan
+## Format Google Sheet
 
-Proyek sudah terhubung ke spreadsheet publik melalui URL CSV di `config.js`. Struktur yang dipakai adalah dua kolom vertikal:
+Ubah Sheet menjadi tiga kolom berikut:
 
-   | Nama field | Nilai |
-   |---|---|---|
-   | judul | Beda Nasib Pers Australia-Indonesia |
-   | nama_reporter | Irene Sarwindaningrum |
-   | metode_verifikasi | Menggunakan data dari... |
+| kunci | indonesia | english |
+|---|---|---|
+| judul | Judul dalam bahasa Indonesia | English title |
+| nama_reporter | Nama penulis | Writer name |
+| profil_penulis | Profil penulis dalam bahasa Indonesia | Writer profile in English |
+| metode_verifikasi | Penjelasan verifikasi | Verification explanation |
 
-Bot juga mendukung format FAQ tiga kolom dengan header `Pertanyaan`, `Jawaban`, dan `Kata Kunci`.
+Baris pertama wajib berisi `kunci`, `indonesia`, dan `english`. Nama pada kolom `kunci` tidak diterjemahkan.
 
-Untuk mengganti Sheet, publikasikan lewat **File → Bagikan → Publikasikan ke web**, lalu ubah URL `pubhtml` menjadi `pub?output=csv` dan tempel di `config.js`:
+### Contoh tulisan penulis (opsional)
 
-   ```js
-   sheetUrl: "https://docs.google.com/spreadsheets/d/e/.../pub?output=csv",
-   ```
+Tambahkan pasangan baris berikut untuk setiap contoh tulisan:
 
-Spreadsheet harus tetap dipublikasikan agar Vercel dan browser pengunjung bisa membacanya tanpa login. Jangan masukkan data pribadi atau rahasia.
+| kunci | indonesia | english |
+|---|---|---|
+| contoh_tulisan_1_judul | Judul Indonesia | English title |
+| contoh_tulisan_1_link | https://... | https://... |
+| contoh_tulisan_2_judul | Judul Indonesia | English title |
+| contoh_tulisan_2_link | https://... | https://... |
 
-## Menjalankan
+Bagian ini boleh dilewati. Jika tidak ada baris contoh tulisan, bot hanya menampilkan profil penulis. Nomor dapat dilanjutkan menjadi `3`, `4`, dan seterusnya.
 
-Karena browser membatasi pengambilan data saat file dibuka langsung, jalankan server lokal dari folder proyek:
+Setelah Sheet diubah, pastikan **File → Bagikan → Publikasikan ke web** masih aktif. URL CSV publik disimpan di `config.js`.
 
-```bash
-python3 -m http.server 8080
+## Deploy
+
+Unggah ulang seluruh file ke repository GitHub yang sama. Vercel akan membuat deployment baru secara otomatis.
+
+## Memasang dengan iframe
+
+Ganti URL berikut dengan URL produksi Vercel:
+
+```html
+<iframe
+  src="https://nama-proyek.vercel.app"
+  title="Transparansi Bot Beda Pers"
+  width="100%"
+  height="760"
+  loading="lazy"
+  style="border:0;border-radius:20px;overflow:hidden"
+></iframe>
 ```
 
-Lalu buka <http://localhost:8080>.
+Jika area ICM sempit, tinggi `700`–`800` piksel biasanya nyaman. Pada layar kecil, bot otomatis memenuhi area iframe.
 
-## Deploy dengan GitHub dan Vercel
-
-1. Commit folder ini ke branch GitHub Anda lalu push.
-2. Di Vercel, pilih **Add New → Project** dan impor repository tersebut.
-3. Biarkan **Framework Preset** sebagai `Other` dan **Output Directory** kosong.
-4. Klik **Deploy**. Tidak diperlukan environment variable atau build command.
-
-## Pengaturan
-
-Semua pengaturan ada di `config.js`: URL Sheet, nama bot, pesan pembuka, pesan fallback, jumlah saran, dan ambang kecocokan. Bila Sheet gagal dimuat, aplikasi otomatis memakai data demo.
-
-Bot ini menggunakan pencocokan kata, bukan AI generatif. Jawaban selalu berasal dari nilai yang tersedia di spreadsheet.
+Tambahkan `?lang=en` pada URL untuk membuka iframe langsung dalam bahasa Inggris, atau `?lang=id` untuk bahasa Indonesia.
