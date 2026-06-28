@@ -23,10 +23,11 @@ const ui = {
     reloadLabel: "Muat ulang data",
     suggestionsLabel: "Saran pertanyaan",
     credit: "Jawaban bersumber dari lembar transparansi editorial",
-    welcome: "Halo! Saya bisa membantu menjelaskan proses di balik liputan ini, profil penulis, dan contoh tulisannya. Apa yang ingin Anda ketahui?",
-    fallback: "Maaf, informasi itu belum tersedia di lembar transparansi. Coba gunakan kata kunci lain.",
+    welcome: "Halo! Senang bertemu dengan Anda 👋 Saya siap membantu menjelaskan isi dan proses di balik liputan ini. Anda bisa memilih pertanyaan di bawah atau bertanya dengan kata-kata sendiri.",
+    fallback: "Maaf, saya belum menemukan informasi yang cocok. Coba tanyakan dengan kalimat lain—saya akan berusaha membantu.",
     readArticle: "Baca artikel",
     samplesTitle: "Contoh tulisan penulis",
+    thinking: "Sebentar, saya sedang membaca sumbernya…",
   },
   en: {
     loading: "Loading data...",
@@ -38,10 +39,11 @@ const ui = {
     reloadLabel: "Reload data",
     suggestionsLabel: "Suggested questions",
     credit: "Answers are sourced from the editorial transparency sheet",
-    welcome: "Hello! I can explain the reporting process behind this story, the writer’s background, and examples of their work. What would you like to know?",
-    fallback: "Sorry, that information is not yet available in the transparency sheet. Try different keywords.",
+    welcome: "Hello! It’s lovely to meet you 👋 I’m here to explain the story and the reporting process behind it. Choose a question below or ask in your own words.",
+    fallback: "Sorry, I couldn’t find a matching answer yet. Try asking in a different way—I’ll do my best to help.",
     readArticle: "Read article",
     samplesTitle: "Examples of the writer’s work",
+    thinking: "One moment, I’m reading the source…",
   },
 };
 
@@ -138,6 +140,16 @@ function createKnowledgeBase() {
       };
     });
 
+  const overview = buildOverview();
+  if (overview) {
+    items.push({
+      key: "ringkasan",
+      question: language === "id" ? "Bisakah kamu merangkum liputan ini?" : "Can you summarize this coverage?",
+      keywords: language === "id" ? "ringkas rangkum ringkasan ikhtisar keseluruhan isi liputan" : "summarize summary overview entire coverage story",
+      answer: overview,
+    });
+  }
+
   const samples = collectSamples();
   if (samples.length) {
     items.push({
@@ -148,6 +160,35 @@ function createKnowledgeBase() {
     });
   }
   knowledgeBase = items;
+}
+
+function buildOverview() {
+  const sections = language === "id"
+    ? [
+        ["Judul", ["judul"]],
+        ["Penulis", ["nama_reporter"]],
+        ["Latar belakang penulis", ["profil_reporter", "profil_penulis"]],
+        ["Cara peliputan", ["cara_peliputan"]],
+        ["Verifikasi", ["metode_verifikasi"]],
+        ["Alasan sudut pandang", ["alasan_angle"]],
+        ["Penggunaan AI", ["apakah_ai_digunakan_dalam_proses_berita_ini"]],
+      ]
+    : [
+        ["Title", ["judul"]],
+        ["Writer", ["nama_reporter"]],
+        ["Writer’s background", ["profil_reporter", "profil_penulis"]],
+        ["Reporting process", ["cara_peliputan"]],
+        ["Verification", ["metode_verifikasi"]],
+        ["Reason for the angle", ["alasan_angle"]],
+        ["Use of AI", ["apakah_ai_digunakan_dalam_proses_berita_ini"]],
+      ];
+  return sections.map(([label, keys]) => {
+    const record = keys.map((key) => records.find((candidate) => candidate.key === key)).find(Boolean);
+    const value = valueFor(record);
+    if (!value) return "";
+    const concise = value.length > 360 ? `${value.slice(0, 357).trim()}…` : value;
+    return `${label}: ${concise}`;
+  }).filter(Boolean).join("\n\n");
 }
 
 function collectSamples() {
@@ -222,11 +263,12 @@ function addMessage(content, sender = "bot") {
   wrapper.appendChild(bubble);
   elements.messages.appendChild(wrapper);
   elements.messages.scrollTop = elements.messages.scrollHeight;
+  return wrapper;
 }
 
 function showSuggestions() {
   elements.suggestions.replaceChildren();
-  const preferred = ["judul", "nama_reporter", "profil_reporter", "profil_penulis", "contoh_tulisan", "metode_verifikasi", "apakah_ai_digunakan_dalam_proses_berita_ini"];
+  const preferred = ["ringkasan", "judul", "nama_reporter", "profil_reporter", "profil_penulis", "metode_verifikasi", "apakah_ai_digunakan_dalam_proses_berita_ini"];
   const sorted = [...knowledgeBase].sort((a, b) => {
     const ai = preferred.indexOf(a.key), bi = preferred.indexOf(b.key);
     return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
@@ -240,17 +282,35 @@ function showSuggestions() {
   });
 }
 
-function ask(question) {
+async function ask(question) {
   const cleanQuestion = question.trim();
   if (!cleanQuestion) return;
   addMessage(cleanQuestion, "user");
   elements.input.value = "";
-  const best = knowledgeBase.map((item) => ({ item, score: similarity(cleanQuestion, item) })).sort((a, b) => b.score - a.score)[0];
-  window.setTimeout(() => {
+  elements.input.disabled = true;
+  elements.send.disabled = true;
+  const thinkingMessage = addMessage(ui[language].thinking);
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question: cleanQuestion, language }),
+    });
+    const result = await response.json();
+    if (!response.ok || !result.answer) throw new Error(result.code || result.error || "AI unavailable");
+    thinkingMessage.remove();
+    addMessage(result.answer);
+  } catch (error) {
+    const best = knowledgeBase.map((item) => ({ item, score: similarity(cleanQuestion, item) })).sort((a, b) => b.score - a.score)[0];
+    thinkingMessage.remove();
     if (!best || best.score < config.minimumScore) addMessage(ui[language].fallback);
     else if (best.item.samples) addMessage({ samples: best.item.samples });
     else addMessage(best.item.answer);
-  }, 220);
+  } finally {
+    elements.input.disabled = false;
+    elements.send.disabled = false;
+    elements.input.focus();
+  }
 }
 
 function applyLanguage(nextLanguage, resetConversation = true) {

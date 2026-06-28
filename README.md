@@ -2,6 +2,18 @@
 
 Chatbot dwibahasa Indonesia–Inggris yang membaca data transparansi editorial dari Google Spreadsheet. Aplikasi ini statis, responsif, dan siap dipasang melalui iframe.
 
+## Mengaktifkan jawaban AI
+
+Bot memiliki endpoint Vercel `/api/chat` yang membaca seluruh data dan `isi_artikel` dari Sheet. Tanpa API key, bot tetap memakai pencocokan lokal sebagai fallback.
+
+1. Buat API key OpenAI.
+2. Di Vercel buka proyek → **Settings → Environment Variables**.
+3. Tambahkan nama `OPENAI_API_KEY`, tempel key sebagai nilainya, dan aktifkan untuk Production, Preview, serta Development.
+4. Opsional: tambahkan `OPENAI_MODEL` untuk mengganti model bawaan `gpt-5.4-mini`.
+5. Buka tab **Deployments**, pilih deployment terbaru, lalu lakukan **Redeploy**.
+
+Jangan pernah menyimpan API key di GitHub, Google Sheet, `config.js`, atau kode sisi browser.
+
 ## Format Google Sheet
 
 Ubah Sheet menjadi tiga kolom berikut:
