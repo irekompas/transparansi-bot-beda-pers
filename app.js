@@ -204,7 +204,7 @@ function toPointers(text) {
   const value = String(text || "").trim();
   if (!value || /^https?:\/\/\S+$/i.test(value) || value.startsWith("• ")) return value;
   const parts = value.split(/\n+|(?<=[.!?])\s+/).map((part) => part.trim()).filter(Boolean);
-  return parts.slice(0, 6).map((part) => `• ${part}`).join("\n");
+  return parts.slice(0, 4).map((part) => `• ${part}`).join("\n");
 }
 
 function collectSamples() {
@@ -315,7 +315,7 @@ async function ask(question) {
     const result = await response.json();
     if (!response.ok || !result.answer) throw new Error(result.code || result.error || "AI unavailable");
     thinkingMessage.remove();
-    addMessage(result.answer);
+    addMessage(result.answer.replace(/\*\*/g, ""));
   } catch (error) {
     const best = knowledgeBase.map((item) => ({ item, score: similarity(cleanQuestion, item) })).sort((a, b) => b.score - a.score)[0];
     thinkingMessage.remove();
