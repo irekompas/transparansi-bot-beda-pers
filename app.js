@@ -15,6 +15,7 @@ const elements = {
   reload: document.querySelector("#reloadButton"),
   send: document.querySelector("#sendButton"),
   credit: document.querySelector("#credit"),
+  copyright: document.querySelector("#copyright"),
   languageButtons: [...document.querySelectorAll("[data-language]")],
 };
 
@@ -29,6 +30,7 @@ const ui = {
     reloadLabel: "Muat ulang data",
     suggestionsLabel: "Saran pertanyaan",
     credit: "Jawaban bersumber dari lembar transparansi editorial",
+    copyright: "© 2026 Irene Sarwindaningrum untuk Kompas.id",
     welcome: "Halo! 👋 Saya adalah bot transparansi berita. Saya menjelaskan bagaimana berita ini dibuat—mulai dari peliputan, verifikasi, pemilihan narasumber, hingga penggunaan AI—agar Anda dapat menilai prosesnya dengan jelas.",
     fallback: "Maaf, saya belum menemukan informasi yang cocok. Coba tanyakan dengan kalimat lain—saya akan berusaha membantu.",
     readArticle: "Baca artikel",
@@ -45,6 +47,7 @@ const ui = {
     reloadLabel: "Reload data",
     suggestionsLabel: "Suggested questions",
     credit: "Answers are sourced from the editorial transparency sheet",
+    copyright: "© 2026 Irene Sarwindaningrum for Kompas.id",
     welcome: "Hello! 👋 I’m a news transparency bot. I explain how this story was produced—from reporting and verification to source selection and AI use—so you can assess the process clearly.",
     fallback: "Sorry, I couldn’t find a matching answer yet. Try asking in a different way—I’ll do my best to help.",
     readArticle: "Read article",
@@ -341,6 +344,7 @@ function applyLanguage(nextLanguage, resetConversation = true) {
   elements.reload.setAttribute("aria-label", ui[language].reloadLabel);
   elements.suggestions.setAttribute("aria-label", ui[language].suggestionsLabel);
   elements.credit.textContent = ui[language].credit;
+  elements.copyright.textContent = ui[language].copyright;
   createKnowledgeBase();
   setStatus(records.length ? "" : "loading", records.length ? ui[language].ready(records.length) : ui[language].loading);
   showSuggestions();
