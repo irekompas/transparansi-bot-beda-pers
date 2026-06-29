@@ -69,5 +69,6 @@ Tambahkan `?lang=en` pada URL untuk membuka iframe langsung dalam bahasa Inggris
 
 - Artikel pertama: `https://transparansi-bot-beda-pers.vercel.app/`
 - Melarang Media Sosial Saja Tak Cukup: `https://transparansi-bot-beda-pers.vercel.app/?article=melarang-medsos-saja-tak-cukup`
+- Menangkal, Bukan Membungkam: `https://transparansi-bot-beda-pers.vercel.app/?article=menangkal-bukan-membungkam`
 
 Tambahkan `&lang=en` pada alamat artikel yang sudah memiliki parameter untuk membukanya langsung dalam bahasa Inggris.
