@@ -88,7 +88,8 @@ Kalimat pertama wajib langsung menyatakan fakta yang menjawab inti pertanyaan de
 Jangan memakai frasa meta seperti “menurut materi referensi”, “berdasarkan data yang tersedia”, “disebutkan pada bagian”, atau “referensi menyatakan”. Sampaikan isi faktanya langsung.
 Jawab pertanyaan secara lengkap dengan konteks yang langsung relevan, tetapi jangan melebar ke informasi lain.
 Seluruh jawaban wajib berbentuk poin dan setiap poin harus diawali simbol •. Jangan menulis paragraf di luar poin.
-Setiap poin hanya boleh memuat satu gagasan utama dalam satu kalimat pendek. Gunakan susunan subjek–predikat yang sederhana dan kata-kata umum.
+Setiap poin hanya boleh memuat satu gagasan utama dalam satu kalimat pendek. Usahakan maksimal 18 kata per kalimat.
+Gunakan susunan subjek–predikat yang sederhana dan kata-kata umum. Hindari anak kalimat panjang, titik koma, dan lebih dari satu koma.
 Letakkan jawaban inti pada poin pertama. Pecah rincian penting menjadi poin terpisah; jangan menumpuk banyak fakta dalam satu kalimat panjang.
 Untuk pertanyaan biasa, gunakan 2–3 poin. Untuk ringkasan atau profil, gunakan maksimal 4 poin agar detail dan esensi tetap lengkap.
 Prioritaskan fakta terpenting, bukti, metode, dan konteks yang membantu pembaca memahami jawaban secara utuh.
@@ -113,7 +114,8 @@ The first sentence must directly state the fact that answers the core question u
 Do not use meta phrases such as “according to the reference material,” “based on the available data,” “as stated in the section,” or “the reference says.” State the underlying fact directly.
 Answer completely with directly relevant context, but do not drift into adjacent information.
 Every answer must use bullet points beginning with •. Do not write paragraphs outside the bullets.
-Each bullet must contain one main idea in one short sentence. Use a simple subject–verb structure and familiar words.
+Each bullet must contain one main idea in one short sentence, preferably no more than 18 words.
+Use a simple subject–verb structure and familiar words. Avoid long subordinate clauses, semicolons, and more than one comma.
 Put the core answer in the first bullet. Split essential details into separate bullets instead of packing many facts into one long sentence.
 Use 2–3 bullets for ordinary questions and no more than 4 bullets for summaries or profiles.
 Prioritize the most important facts, evidence, methods, and context needed for a complete understanding.
@@ -242,15 +244,17 @@ function buildQuestionGuidance(question, language) {
   if (!asksAboutImportance) return language === "en" ? "Follow the general instructions." : "Ikuti instruksi umum.";
 
   if (language === "en") {
-    return `Answer in exactly two sharp bullet points.
-• First state the central public stake: the concrete risk, policy gap, or consequence, and who is affected.
-• Then give the strongest fact from the article showing why the issue is urgent now.
+    return `Answer in 3–4 short bullet points, with one sentence and preferably no more than 18 words per bullet.
+• First state why the issue matters specifically to the Indonesian public.
+• Then state the concrete risk or consequence and who is affected.
+• Give the strongest fact showing why the issue is urgent now.
 Do not say the story is important merely because it compares countries, helps readers see differences, provides insight, or raises awareness. Name the real-world stakes directly.`;
   }
 
-  return `Jawab tepat dalam dua poin yang tajam.
-• Poin pertama menyatakan taruhan utama bagi publik: risiko konkret, kekosongan kebijakan, atau akibatnya, serta siapa yang terdampak.
-• Poin kedua menyebut fakta terkuat dalam artikel yang menunjukkan mengapa persoalan ini mendesak sekarang.
+  return `Jawab dalam 3–4 poin pendek. Setiap poin hanya satu kalimat dan usahakan maksimal 18 kata.
+• Poin pertama menjelaskan mengapa isu ini penting khusus bagi publik Indonesia.
+• Poin berikutnya menyatakan risiko atau akibat konkret dan siapa yang terdampak.
+• Sebutkan fakta terkuat yang menunjukkan mengapa persoalan ini mendesak sekarang.
 Jangan mengatakan berita penting hanya karena membandingkan negara, membantu pembaca melihat perbedaan, memberi wawasan, atau meningkatkan kesadaran. Sebutkan taruhannya secara langsung.`;
 }
 
@@ -269,7 +273,7 @@ function getApprovedAnswer(records, language, question) {
 
 function formatPointerAnswer(text) {
   return String(text || "")
-    .split(/\n+/)
+    .split(/\n+|(?<=[.!?])\s+/)
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => `• ${line.replace(/^(?:•|[-*]|\d+[.)])\s*/, "")}`)
