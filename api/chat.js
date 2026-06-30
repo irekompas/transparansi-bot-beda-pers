@@ -176,17 +176,19 @@ function buildContext(records, language) {
 function buildFocusedContext(records, language, question) {
   const query = normalizeKey(question).replace(/_/g, " ");
   let patterns = [];
-  if (/(dibayar|bayaran|dana|biaya|beasiswa|kompensasi|paid|payment|funded|funding|compensation|scholarship)/.test(query)) {
+  if (/(inti artikel|ringkas|rangkuman|ringkasan|main point|summary|summarize)/.test(query)) {
+    patterns = [/^isi_artikel$/, /^judul$/, /^alasan_angle$/];
+  } else if (/(dibayar|bayaran|dana|biaya|beasiswa|kompensasi|paid|payment|funded|funding|compensation|scholarship)/.test(query)) {
     patterns = [/^latar_belakang_pemberitaan$/, /^nama_reporter$/];
   } else if (/(verifikasi|cek fakta|akurasi|verified|verification|fact check|accuracy)/.test(query)) {
     patterns = [/^metode_verifikasi$/, /^metode_penunjang$/, /^cara_peliputan$/];
   } else if (/(narasumber|sumber|source|interviewee)/.test(query)) {
     patterns = [/^nama_narasumber/, /^atribusi_narasumber/, /^alasan_pemilihan_narasumber/];
-  } else if (/(kecerdasan buatan|penggunaan ai|artificial intelligence|ai use)/.test(query)) {
+  } else if (/(kecerdasan buatan|penggunaan ai|ai digunakan|artificial intelligence|ai use|used.*ai|was ai)/.test(query)) {
     patterns = [/^apakah_ai_digunakan/];
   } else if (/(wartawan|reporter|penulis|writer|journalist|author)/.test(query)) {
     patterns = [/^nama_reporter$/, /^profil_reporter$/, /^latar_belakang_pemberitaan$/];
-  } else if (/(cara dibuat|proses liputan|peliputan|how.*made|reporting process|newsgathering)/.test(query)) {
+  } else if (/(cara dibuat|proses pembuatan|proses liputan|peliputan|how.*made|article produced|reporting process|newsgathering)/.test(query)) {
     patterns = [/^cara_peliputan$/, /^metode_verifikasi$/, /^latar_belakang_pemberitaan$/];
   } else if (/(angle|sudut pandang|perspective)/.test(query)) {
     patterns = [/^alasan_angle$/];
