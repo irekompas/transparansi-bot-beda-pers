@@ -65,7 +65,7 @@ const rules = [
   { match: /^cara_peliputan$/, q: { id: "Bagaimana proses pembuatan?", en: "How was the article produced?" }, k: { id: "cara proses pembuatan peliputan wawancara pengamatan reportase", en: "how article produced reporting process interview observation newsgathering" } },
   { match: /^metode_verifikasi$/, q: { id: "Bagaimana informasi dalam berita diverifikasi?", en: "How was the information verified?" }, k: { id: "metode verifikasi cek fakta data dokumen sumber validasi", en: "verification fact check data documents sources validation" } },
   { match: /^metode_penunjang$/, q: { id: "Apa metode penunjang liputan ini?", en: "What supporting methods were used?" }, k: { id: "metode penunjang referensi tambahan data", en: "supporting methods references additional data" } },
-  { match: /^alasan_angle$/, q: { id: "Mengapa sudut pandang berita ini dipilih?", en: "Why was this story angle chosen?" }, k: { id: "alasan angle sudut pandang fokus berita", en: "reason angle perspective focus story" } },
+  { match: /^alasan_angle$/, q: { id: "Kenapa berita ini penting?", en: "Why is this story important?" }, k: { id: "kenapa mengapa berita penting alasan angle sudut pandang fokus berita", en: "why story important reason angle perspective focus" } },
   { match: /^latar_belakang_pemberitaan$/, q: { id: "Apa latar belakang pemberitaan ini?", en: "What is the background of this coverage?" }, k: { id: "latar belakang konteks alasan liputan", en: "background context reason coverage" } },
   { match: /^apakah_ai_digunakan/, q: { id: "Apakah AI digunakan dalam pembuatan?", en: "Was AI used in its production?" }, k: { id: "ai kecerdasan buatan transkripsi penggunaan pembuatan", en: "ai artificial intelligence transcription use production" } },
   { match: /^nama_narasumber/, q: { id: "Siapa narasumber {n}?", en: "Who is source {n}?" }, k: { id: "nama narasumber sumber wawancara ahli siapa {n}", en: "name interview source expert who {n}" } },
@@ -293,7 +293,7 @@ function addMessage(content, sender = "bot") {
 
 function showSuggestions() {
   elements.suggestions.replaceChildren();
-  const preferred = ["ringkasan", "cara_peliputan", "apakah_ai_digunakan_dalam_proses_berita_ini"];
+  const preferred = ["ringkasan", "cara_peliputan", "apakah_ai_digunakan_dalam_proses_berita_ini", "alasan_angle"];
   const sorted = [...knowledgeBase].sort((a, b) => {
     const ai = preferred.indexOf(a.key), bi = preferred.indexOf(b.key);
     return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
