@@ -53,11 +53,32 @@ button, input { font: inherit; }
   flex: none;
   display: grid;
   place-items: center;
-  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .78);
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 5px 16px rgba(0, 42, 88, .23);
+}
+.bot-avatar::before {
+  content: "";
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+  background: conic-gradient(from 22.5deg, #f7c843 0 12.5%, #ffd95c 12.5% 25%, #e9ae21 25% 37.5%, #ffd65a 37.5% 50%, #e8aa1c 50% 62.5%, #f9cc45 62.5% 75%, #e3a117 75% 87.5%, #ffd967 87.5% 100%);
+  box-shadow: inset 0 0 0 1px rgba(143, 91, 0, .16);
+}
+.bot-avatar span {
+  position: relative;
+  z-index: 1;
   color: #005ca8;
-  background: #e7f3ff;
-  font-weight: 800;
-  letter-spacing: -.5px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 27px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1;
+  transform: translateX(-1px);
 }
 .identity { min-width: 0; }
 .identity h1 { margin: 0 0 3px; font-size: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -201,7 +222,9 @@ button, input { font: inherit; }
   .app-shell { padding: 0; place-content: stretch; }
   .chat-card { width: 100vw; height: 100vh; min-height: 0; border: 0; border-radius: 0; }
   .chat-header { min-height: 78px; padding: 13px; gap: 9px; }
-  .bot-avatar { width: 40px; height: 40px; border-radius: 12px; font-size: 13px; }
+  .bot-avatar { width: 40px; height: 40px; border-radius: 11px; }
+  .bot-avatar::before { width: 32px; height: 32px; }
+  .bot-avatar span { font-size: 24px; }
   .identity h1 { max-width: 145px; font-size: 15px; }
   .identity p { max-width: 145px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .language-switch button { width: 32px; }
