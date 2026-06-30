@@ -40,7 +40,7 @@ module.exports = async function handler(request, response) {
     const sheetResponse = await fetch(`${sheetUrl}&cache=${Date.now()}`);
     if (!sheetResponse.ok) throw new Error(`Sheet HTTP ${sheetResponse.status}`);
     const records = rowsToRecords(parseCSV(await sheetResponse.text()));
-    const context = buildContext(records, language);
+    const context = buildContext(scopeRecordsForQuestion(records, question), language);
     if (!context) throw new Error("Konteks artikel kosong");
 
     const apiResponse = await fetch("https://api.openai.com/v1/responses", {
@@ -87,6 +87,7 @@ Untuk pertanyaan biasa, jawab maksimal 2 poin dan maksimal 3 kalimat secara kese
 Hanya untuk permintaan ringkasan atau profil, jawaban boleh mencapai 3 poin agar fakta utama tetap lengkap.
 Prioritaskan fakta terpenting, bukti, metode, dan konteks yang membantu pembaca memahami jawaban secara utuh.
 Jangan menambahkan fakta hanya karena fakta itu tersedia dalam referensi. Masukkan fakta kedua hanya jika secara langsung menjelaskan jawaban pertama. Jangan membahas narasumber, metode verifikasi, penghargaan, atau topik lain kecuali ditanyakan atau benar-benar diperlukan untuk menjawab.
+Jika pengguna bertanya tentang proses pembuatan atau peliputan tanpa menyebut AI, jangan membahas AI, transkripsi AI, atau audit menggunakan AI.
 Gunakan pilihan kata yang tenang dan diplomatis, terutama untuk isu sensitif atau kritik. Hindari dramatisasi, spekulasi, dan penilaian emosional.
 Untuk pertanyaan tentang bayaran atau pendanaan, urutkan jawaban: (1) apakah wartawan dibayar khusus untuk liputan tersebut; (2) mengapa wartawan berada di lokasi atau konteks beasiswa/perjalanan yang relevan; lalu (3) sumber pembiayaan atau independensi editorial hanya jika diperlukan. Sebutkan hanya fakta yang tersedia dalam referensi.
 Jangan mengatakan “informasi lain tidak tersedia” setelah pertanyaan sudah terjawab, kecuali pengguna secara khusus menanyakannya.
@@ -109,6 +110,7 @@ For ordinary questions, use no more than 2 bullet points and no more than 3 sent
 Only summary or profile requests may use up to 3 bullet points so the essential facts remain complete.
 Prioritize the most important facts, evidence, methods, and context needed for a complete understanding.
 Do not add a fact merely because it appears in the reference. Include a second fact only when it directly explains the first answer. Do not discuss sources, verification methods, awards, or adjacent topics unless asked or strictly necessary to answer.
+If the user asks about production or reporting without mentioning AI, do not discuss AI, AI transcription, or AI-assisted audits.
 Use calm and diplomatic wording, especially for sensitive issues or criticism. Avoid dramatization, speculation, and emotional judgment.
 For questions about payment or funding, order the answer as follows: (1) whether the journalist was paid specifically for the reporting; (2) why the journalist was at the location or any relevant scholarship/travel context; and then (3) funding or editorial independence only when needed. Mention only facts supported by the reference.
 Do not say that “other information is unavailable” after answering the question unless the user specifically asked for it.
@@ -198,6 +200,26 @@ function buildFocusedContext(records, language, question) {
     ? records.filter((record) => patterns.some((pattern) => pattern.test(record.key)))
     : records.filter((record) => ["judul", "cara_peliputan", "metode_verifikasi", "latar_belakang_pemberitaan"].includes(record.key));
   return buildContext(selected, language) || "Tidak ada data prioritas tambahan.";
+}
+
+function scopeRecordsForQuestion(records, question) {
+  const query = normalizeKey(question).replace(/_/g, " ");
+  const asksAboutAi = /(kecerdasan buatan|\bai\b|artificial intelligence)/.test(query);
+  if (asksAboutAi) {
+    return records.filter((record) => /^apakah_ai_digunakan/.test(record.key));
+  }
+
+  const asksAboutProcess = /(cara dibuat|proses pembuatan|proses liputan|peliputan|how.*made|article produced|reporting process|newsgathering)/.test(query);
+  if (asksAboutProcess) {
+    return records.filter((record) => [
+      "cara_peliputan",
+      "metode_verifikasi",
+      "metode_penunjang",
+      "latar_belakang_pemberitaan",
+    ].includes(record.key));
+  }
+
+  return records.filter((record) => !/^apakah_ai_digunakan/.test(record.key));
 }
 
 function extractOutputText(data) {
