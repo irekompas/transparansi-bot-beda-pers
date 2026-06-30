@@ -42,7 +42,7 @@ module.exports = async function handler(request, response) {
     const records = rowsToRecords(parseCSV(await sheetResponse.text()));
     const approvedAnswer = getApprovedAnswer(records, language, question);
     if (approvedAnswer) {
-      return response.status(200).json({ answer: approvedAnswer });
+      return response.status(200).json({ answer: formatPointerAnswer(approvedAnswer) });
     }
     const context = buildContext(scopeRecordsForQuestion(records, question), language);
     if (!context) throw new Error("Konteks artikel kosong");
@@ -69,7 +69,7 @@ module.exports = async function handler(request, response) {
 
     const answer = extractOutputText(data);
     if (!answer) throw new Error("Respons AI kosong");
-    return response.status(200).json({ answer });
+    return response.status(200).json({ answer: formatPointerAnswer(answer) });
   } catch (error) {
     console.error("Chat API error:", error.message);
     return response.status(500).json({ error: "Bot belum dapat menjawab. Silakan coba lagi." });
@@ -87,8 +87,10 @@ Jangan mengklaim sebuah berita pasti benar atau jujur. Tunjukkan proses dan bukt
 Kalimat pertama wajib langsung menyatakan fakta yang menjawab inti pertanyaan dengan pola subjek–predikat, misalnya “Wartawan tidak dibayar untuk liputan ini.” Untuk pertanyaan ya/tidak, jangan berhenti pada kata “Ya” atau “Tidak”; langsung nyatakan apa yang ya atau tidak.
 Jangan memakai frasa meta seperti “menurut materi referensi”, “berdasarkan data yang tersedia”, “disebutkan pada bagian”, atau “referensi menyatakan”. Sampaikan isi faktanya langsung.
 Jawab pertanyaan secara lengkap dengan konteks yang langsung relevan, tetapi jangan melebar ke informasi lain.
-Untuk pertanyaan biasa, jawab maksimal 2 poin dan maksimal 3 kalimat secara keseluruhan. Setiap poin harus diawali simbol •.
-Hanya untuk permintaan ringkasan atau profil, jawaban boleh mencapai 3 poin agar fakta utama tetap lengkap.
+Seluruh jawaban wajib berbentuk poin dan setiap poin harus diawali simbol •. Jangan menulis paragraf di luar poin.
+Setiap poin hanya boleh memuat satu gagasan utama dalam satu kalimat pendek. Gunakan susunan subjek–predikat yang sederhana dan kata-kata umum.
+Letakkan jawaban inti pada poin pertama. Pecah rincian penting menjadi poin terpisah; jangan menumpuk banyak fakta dalam satu kalimat panjang.
+Untuk pertanyaan biasa, gunakan 2–3 poin. Untuk ringkasan atau profil, gunakan maksimal 4 poin agar detail dan esensi tetap lengkap.
 Prioritaskan fakta terpenting, bukti, metode, dan konteks yang membantu pembaca memahami jawaban secara utuh.
 Jangan menambahkan fakta hanya karena fakta itu tersedia dalam referensi. Masukkan fakta kedua hanya jika secara langsung menjelaskan jawaban pertama. Jangan membahas narasumber, metode verifikasi, penghargaan, atau topik lain kecuali ditanyakan atau benar-benar diperlukan untuk menjawab.
 Jika pengguna bertanya tentang proses pembuatan atau peliputan tanpa menyebut AI, jangan membahas AI, transkripsi AI, atau audit menggunakan AI.
@@ -110,8 +112,10 @@ Never claim that a story is definitely true or honest. Present the transparent p
 The first sentence must directly state the fact that answers the core question using a subject–verb construction, for example, “The journalist was not paid for this reporting.” For yes/no questions, do not stop at “Yes” or “No”; state exactly what is or is not the case.
 Do not use meta phrases such as “according to the reference material,” “based on the available data,” “as stated in the section,” or “the reference says.” State the underlying fact directly.
 Answer completely with directly relevant context, but do not drift into adjacent information.
-For ordinary questions, use no more than 2 bullet points and no more than 3 sentences in total. Begin every point with •.
-Only summary or profile requests may use up to 3 bullet points so the essential facts remain complete.
+Every answer must use bullet points beginning with •. Do not write paragraphs outside the bullets.
+Each bullet must contain one main idea in one short sentence. Use a simple subject–verb structure and familiar words.
+Put the core answer in the first bullet. Split essential details into separate bullets instead of packing many facts into one long sentence.
+Use 2–3 bullets for ordinary questions and no more than 4 bullets for summaries or profiles.
 Prioritize the most important facts, evidence, methods, and context needed for a complete understanding.
 Do not add a fact merely because it appears in the reference. Include a second fact only when it directly explains the first answer. Do not discuss sources, verification methods, awards, or adjacent topics unless asked or strictly necessary to answer.
 If the user asks about production or reporting without mentioning AI, do not discuss AI, AI transcription, or AI-assisted audits.
@@ -261,6 +265,15 @@ function getApprovedAnswer(records, language, question) {
   const value = selected || record.id || record.en || "";
   if (/^#(?:VALUE!|REF!|N\/A|ERROR!|NAME\?)/i.test(value)) return "";
   return value.trim();
+}
+
+function formatPointerAnswer(text) {
+  return String(text || "")
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => `• ${line.replace(/^(?:•|[-*]|\d+[.)])\s*/, "")}`)
+    .join("\n");
 }
 
 function extractOutputText(data) {
