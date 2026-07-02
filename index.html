@@ -7,14 +7,16 @@
     <title>Transparansi Bot Beda Pers</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <main class="app-shell">
       <section class="chat-card" aria-label="Chatbot">
         <header class="chat-header">
-          <div class="bot-avatar" aria-hidden="true"><span>K</span></div>
+          <div class="bot-avatar" aria-hidden="true">
+            <img src="assets/logo-ikon-kompas-id.png" alt="" />
+          </div>
           <div class="identity">
             <h1>Transparansi Bot Beda Pers</h1>
             <p><span id="statusDot" class="status-dot loading"></span><span id="statusText">Memuat data...</span></p>
@@ -35,8 +37,8 @@
           <button id="sendButton" type="submit" aria-label="Kirim pertanyaan">➤</button>
         </form>
         <p id="copyright" class="copyright">© 2026 Irene Sarwindaningrum untuk Kompas.id</p>
+        <p id="credit" class="credit">Jawaban bersumber dari lembar transparansi editorial</p>
       </section>
-      <p id="credit" class="credit">Jawaban bersumber dari lembar transparansi editorial</p>
     </main>
 
     <script src="config.js"></script>
