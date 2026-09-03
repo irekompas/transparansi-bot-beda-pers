@@ -16,6 +16,7 @@ const elements = {
   send: document.querySelector("#sendButton"),
   credit: document.querySelector("#credit"),
   copyright: document.querySelector("#copyright"),
+  languageLabel: document.querySelector("#languageLabel"),
   languageButtons: [...document.querySelectorAll("[data-language]")],
 };
 
@@ -28,6 +29,7 @@ const ui = {
     inputLabel: "Ketik pertanyaan",
     sendLabel: "Kirim pertanyaan",
     reloadLabel: "Muat ulang data",
+    languageLabel: "Bahasa",
     suggestionsLabel: "Saran pertanyaan",
     credit: "Jawaban bersumber dari lembar transparansi editorial",
     copyright: "© 2026 Irene Sarwindaningrum untuk Kompas.id",
@@ -46,6 +48,7 @@ const ui = {
     inputLabel: "Type a question",
     sendLabel: "Send question",
     reloadLabel: "Reload data",
+    languageLabel: "Language",
     suggestionsLabel: "Suggested questions",
     credit: "Answers are sourced from the editorial transparency sheet",
     copyright: "© 2026 Irene Sarwindaningrum for Kompas.id",
@@ -371,6 +374,7 @@ function applyLanguage(nextLanguage, resetConversation = true) {
   elements.send.setAttribute("aria-label", ui[language].sendLabel);
   elements.reload.title = ui[language].reloadLabel;
   elements.reload.setAttribute("aria-label", ui[language].reloadLabel);
+  elements.languageLabel.textContent = ui[language].languageLabel;
   elements.suggestions.setAttribute("aria-label", ui[language].suggestionsLabel);
   elements.credit.textContent = ui[language].credit;
   elements.copyright.textContent = ui[language].copyright;

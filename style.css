@@ -111,17 +111,30 @@ button, input { font: inherit; }
 .status-dot.loading { background: var(--gold); animation: pulse 1s infinite; }
 .status-dot.error { background: var(--danger); }
 
-.language-switch {
+.language-picker {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .2em;
   flex: none;
   margin-left: auto;
+}
+.language-picker > span {
+  color: var(--blue-pale);
+  font-size: .62rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.language-switch {
+  display: flex;
   padding: .18em;
   border: 1px solid rgba(255, 255, 255, .35);
   border-radius: 8px;
 }
 .language-switch button {
-  width: 2.8em;
+  min-width: 5.3em;
   height: 2.25em;
+  padding: 0 .75em;
   border: 0;
   border-radius: 6px;
   color: var(--white);
@@ -130,7 +143,11 @@ button, input { font: inherit; }
   font-size: .67rem;
   font-weight: 700;
 }
-.language-switch button.active { color: var(--blue-deep); background: var(--white); }
+.language-switch button.active {
+  color: var(--blue-deep);
+  background: var(--white);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .16);
+}
 
 .icon-button {
   width: 2.25em;
@@ -277,7 +294,7 @@ button, input { font: inherit; }
   .identity { flex: 1; }
   .identity h1 { max-width: 10rem; font-size: 1rem; }
   .identity p { max-width: 10rem; }
-  .language-switch button { width: 2.5em; }
+  .language-switch button { min-width: 5em; }
   .icon-button { width: 2.1em; height: 2.1em; }
   .bubble { max-width: 88%; }
   .suggestions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -285,4 +302,13 @@ button, input { font: inherit; }
 
 @media (max-width: 24rem) {
   .identity h1, .identity p { max-width: 7rem; }
+  .chat-header { flex-wrap: wrap; }
+  .language-picker {
+    order: 2;
+    width: 100%;
+    margin-left: 3.05em;
+    flex-direction: row;
+    align-items: center;
+    gap: .55em;
+  }
 }
