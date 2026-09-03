@@ -3,6 +3,7 @@ const SHEETS = {
   "beda-nasib-pers": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwDmKQ55VvM_BJqSdISJbERkHa23JBe0ER_c5mneaA5AOs5hqSQt0QgfHJ49qEmAj4ianyAik-TOJ4/pub?output=csv",
   "melarang-medsos-saja-tak-cukup": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTa9kEv3h2Rn6PHIoVGTDbpt95L3C1jquW6rkZdAtSqLF75RFxdJUL99zbGTopLLAPDg9M7EzAqVjbz/pub?output=csv",
   "menangkal-bukan-membungkam": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoM-56g1qF9njmnGYZqsAZ1-qKSEBRzIS_QPjkUv-tr0M9XPTMTEKnHCte06wlVf-Mi4PZtfWfgcYK/pub?output=csv",
+  "menakar-indonesia-australia": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjyBvxqBPTnJN_mUEA7NfJk3qf0yXtHAwZlGZV4A6ZlOjoq3zEVd_onjzbH8cn0r4uNAcobbJk2c11/pub?output=csv",
 };
 const MODEL = process.env.OPENAI_MODEL || "gpt-5.4-mini";
 const requestsByIp = new Map();
