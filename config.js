@@ -13,6 +13,10 @@ window.CHATBOT_CONFIG = {
       botName: "Transparansi Bot: Menangkal, Bukan Membungkam",
       sheetUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoM-56g1qF9njmnGYZqsAZ1-qKSEBRzIS_QPjkUv-tr0M9XPTMTEKnHCte06wlVf-Mi4PZtfWfgcYK/pub?output=csv",
     },
+    "menakar-indonesia-australia": {
+      botName: "Transparansi Bot: Menakar Indonesia-Australia",
+      sheetUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjyBvxqBPTnJN_mUEA7NfJk3qf0yXtHAwZlGZV4A6ZlOjoq3zEVd_onjzbH8cn0r4uNAcobbJk2c11/pub?output=csv",
+    },
   },
   defaultLanguage: "id",
   minimumScore: 0.3,
