@@ -260,14 +260,14 @@ button, input { font: inherit; }
 .copyright,
 .credit {
   margin: 0;
-  padding: 0 1.5em;
+  padding: 0 .5em;
   color: var(--grey-lt);
   background: var(--white);
   text-align: center;
-  font-size: .66rem;
-  line-height: 1.35;
+  font-size: .52rem;
+  line-height: 1.1;
 }
-.copyright { padding-bottom: .7em; }
+.copyright { padding-bottom: .3em; }
 .credit { display: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
 
