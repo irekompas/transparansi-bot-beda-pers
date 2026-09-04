@@ -90,14 +90,7 @@ button, input { font: inherit; }
   white-space: nowrap;
 }
 .identity p {
-  margin: 0;
-  overflow: hidden;
-  color: var(--blue-pale);
-  font-size: .62rem;
-  font-weight: 700;
-  line-height: 1.2;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: none;
 }
 
 .status-dot {
@@ -274,7 +267,8 @@ button, input { font: inherit; }
   font-size: .66rem;
   line-height: 1.35;
 }
-.credit { padding-top: .3em; padding-bottom: 1em; }
+.copyright { padding-bottom: .7em; }
+.credit { display: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
 
 @keyframes pulse { 50% { opacity: .4; } }
