@@ -61,16 +61,16 @@ button, input { font: inherit; }
 .chat-header {
   display: flex;
   align-items: center;
-  gap: .75em;
-  padding: 1em 1.125em;
+  gap: .5em;
+  padding: .45em .65em;
   color: var(--white);
   background: var(--blue);
-  border-bottom: .2em solid var(--gold);
+  border-bottom: .1em solid var(--gold);
 }
 
 .bot-avatar {
-  width: 2.9em;
-  height: 2.9em;
+  width: 2em;
+  height: 2em;
   flex: none;
   overflow: hidden;
   border-radius: 50%;
@@ -79,11 +79,11 @@ button, input { font: inherit; }
 .bot-avatar img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .identity { min-width: 0; }
 .identity h1 {
-  margin: 0 0 .18em;
+  margin: 0 0 .08em;
   overflow: hidden;
   color: var(--white);
   font-family: var(--font-ed);
-  font-size: 1.125rem;
+  font-size: .88rem;
   font-weight: 700;
   line-height: 1.2;
   text-overflow: ellipsis;
@@ -93,7 +93,7 @@ button, input { font: inherit; }
   margin: 0;
   overflow: hidden;
   color: var(--blue-pale);
-  font-size: .75rem;
+  font-size: .62rem;
   font-weight: 700;
   line-height: 1.2;
   text-overflow: ellipsis;
@@ -118,20 +118,20 @@ button, input { font: inherit; }
 }
 .language-switch {
   display: flex;
-  padding: .18em;
+  padding: .1em;
   border: 1px solid rgba(255, 255, 255, .35);
   border-radius: 8px;
 }
 .language-switch button {
-  min-width: 5.3em;
-  height: 2.25em;
-  padding: 0 .75em;
+  min-width: 4.8em;
+  height: 1.75em;
+  padding: 0 .5em;
   border: 0;
   border-radius: 6px;
   color: var(--white);
   background: transparent;
   cursor: pointer;
-  font-size: .67rem;
+  font-size: .62rem;
   font-weight: 700;
 }
 .language-switch button.active {
@@ -141,8 +141,8 @@ button, input { font: inherit; }
 }
 
 .icon-button {
-  width: 2.25em;
-  height: 2.25em;
+  width: 1.75em;
+  height: 1.75em;
   flex: none;
   padding: 0;
   border: 1px solid rgba(255, 255, 255, .35);
@@ -150,7 +150,7 @@ button, input { font: inherit; }
   color: var(--white);
   background: transparent;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: .85rem;
 }
 .icon-button:hover { background: rgba(255, 255, 255, .12); }
 
@@ -280,24 +280,24 @@ button, input { font: inherit; }
 
 @media (max-width: 34rem) {
   .chat-header {
-    gap: .4em;
-    padding: .45em .55em;
-    border-bottom-width: .12em;
+    gap: .3em;
+    padding: .3em .4em;
+    border-bottom-width: .08em;
   }
-  .bot-avatar { width: 1.9em; height: 1.9em; }
+  .bot-avatar { width: 1.6em; height: 1.6em; }
   .identity { flex: 1; }
-  .identity h1 { max-width: 8rem; font-size: .78rem; }
-  .identity p { max-width: 8rem; font-size: .58rem; }
+  .identity h1 { max-width: 8rem; font-size: .7rem; }
+  .identity p { max-width: 8rem; font-size: .52rem; }
   .status-dot { width: .5em; height: .5em; margin-right: .35em; }
   .language-switch { padding: .1em; border-radius: 6px; }
   .language-switch button {
-    min-width: 4.6em;
-    height: 1.8em;
+    min-width: 4.35em;
+    height: 1.65em;
     padding: 0 .45em;
     border-radius: 5px;
-    font-size: .6rem;
+    font-size: .56rem;
   }
-  .icon-button { width: 1.8em; height: 1.8em; font-size: .85rem; }
+  .icon-button { width: 1.6em; height: 1.6em; font-size: .75rem; }
   .messages { padding: .85em .8em .45em; }
   .bubble { max-width: 88%; }
   .suggestions {
