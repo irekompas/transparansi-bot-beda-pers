@@ -159,7 +159,6 @@ button, input { font: inherit; }
   min-height: 0;
   overflow-y: auto;
   padding: 1.4em 1.25em .7em;
-  scroll-behavior: smooth;
 }
 .message { display: flex; margin-bottom: .85em; }
 .message.user { justify-content: flex-end; }
@@ -206,7 +205,7 @@ button, input { font: inherit; }
 
 .suggestions {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: .65em;
   padding: .65em 1.65em 1em;
 }
@@ -280,24 +279,35 @@ button, input { font: inherit; }
 }
 
 @media (max-width: 34rem) {
-  .chat-header { gap: .55em; padding: .8em; }
-  .bot-avatar { width: 2.5em; height: 2.5em; }
+  .chat-header {
+    gap: .4em;
+    padding: .45em .55em;
+    border-bottom-width: .12em;
+  }
+  .bot-avatar { width: 1.9em; height: 1.9em; }
   .identity { flex: 1; }
-  .identity h1 { max-width: 10rem; font-size: 1rem; }
-  .identity p { max-width: 10rem; }
-  .language-switch button { min-width: 5em; }
-  .icon-button { width: 2.1em; height: 2.1em; }
+  .identity h1 { max-width: 8rem; font-size: .78rem; }
+  .identity p { max-width: 8rem; font-size: .58rem; }
+  .status-dot { width: .5em; height: .5em; margin-right: .35em; }
+  .language-switch { padding: .1em; border-radius: 6px; }
+  .language-switch button {
+    min-width: 4.6em;
+    height: 1.8em;
+    padding: 0 .45em;
+    border-radius: 5px;
+    font-size: .6rem;
+  }
+  .icon-button { width: 1.8em; height: 1.8em; font-size: .85rem; }
+  .messages { padding: .85em .8em .45em; }
   .bubble { max-width: 88%; }
-  .suggestions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .suggestions {
+    gap: .4em;
+    padding: .45em .7em .65em;
+  }
+  .suggestions button { padding: .55em .4em; font-size: .61rem; }
 }
 
 @media (max-width: 24rem) {
-  .identity h1, .identity p { max-width: 7rem; }
-  .chat-header { flex-wrap: wrap; }
-  .language-picker {
-    order: 2;
-    width: 100%;
-    margin-left: 3.05em;
-    justify-content: flex-end;
-  }
+  .identity h1, .identity p { max-width: 5rem; }
+  .language-switch button { min-width: 4.25em; padding-inline: .3em; }
 }

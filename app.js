@@ -265,7 +265,7 @@ function containsPersonalData(text) {
   return emailPattern.test(value) || phonePattern.test(value) || addressPattern.test(value);
 }
 
-function addMessage(content, sender = "bot") {
+function addMessage(content, sender = "bot", scrollMode = "bottom") {
   const wrapper = document.createElement("div"), bubble = document.createElement("div");
   wrapper.className = `message ${sender}`;
   bubble.className = "bubble";
@@ -298,7 +298,14 @@ function addMessage(content, sender = "bot") {
   } else appendLinkedText(bubble, String(content));
   wrapper.appendChild(bubble);
   elements.messages.appendChild(wrapper);
-  elements.messages.scrollTop = elements.messages.scrollHeight;
+  if (scrollMode === "top") {
+    const messageTop = wrapper.getBoundingClientRect().top
+      - elements.messages.getBoundingClientRect().top
+      + elements.messages.scrollTop;
+    elements.messages.scrollTop = Math.max(0, messageTop - 8);
+  } else {
+    elements.messages.scrollTop = elements.messages.scrollHeight;
+  }
   return wrapper;
 }
 
@@ -307,12 +314,10 @@ function showSuggestions() {
   const importanceKey = knowledgeBase.some((item) => item.key === "relevansi_publik_indonesia")
     ? "relevansi_publik_indonesia"
     : "alasan_angle";
-  const preferred = ["ringkasan", "cara_peliputan", "apakah_ai_digunakan_dalam_proses_berita_ini", importanceKey];
-  const sorted = [...knowledgeBase].sort((a, b) => {
-    const ai = preferred.indexOf(a.key), bi = preferred.indexOf(b.key);
-    return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
-  });
-  sorted.slice(0, config.suggestionCount).forEach((item) => {
+  const preferred = [importanceKey, "apakah_ai_digunakan_dalam_proses_berita_ini"]
+    .map((key) => knowledgeBase.find((item) => item.key === key))
+    .filter(Boolean);
+  preferred.forEach((item) => {
     const button = document.createElement("button");
     button.type = "button";
     button.textContent = item.question;
@@ -344,13 +349,13 @@ async function ask(question) {
     const result = await response.json();
     if (!response.ok || !result.answer) throw new Error(result.code || result.error || "AI unavailable");
     thinkingMessage.remove();
-    addMessage(result.answer.replace(/\*\*/g, ""));
+    addMessage(result.answer.replace(/\*\*/g, ""), "bot", "top");
   } catch (error) {
     const best = knowledgeBase.map((item) => ({ item, score: similarity(cleanQuestion, item) })).sort((a, b) => b.score - a.score)[0];
     thinkingMessage.remove();
-    if (!best || best.score < config.minimumScore) addMessage(ui[language].fallback);
-    else if (best.item.samples) addMessage({ samples: best.item.samples });
-    else addMessage(toPointers(best.item.answer));
+    if (!best || best.score < config.minimumScore) addMessage(ui[language].fallback, "bot", "top");
+    else if (best.item.samples) addMessage({ samples: best.item.samples }, "bot", "top");
+    else addMessage(toPointers(best.item.answer), "bot", "top");
   } finally {
     elements.input.disabled = false;
     elements.send.disabled = false;
