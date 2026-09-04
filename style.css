@@ -162,6 +162,11 @@ button, input { font: inherit; }
 }
 .message { display: flex; margin-bottom: .85em; }
 .message.user { justify-content: flex-end; }
+.messages > .message:first-child .bubble {
+  padding: .65em .8em;
+  font-size: .72rem;
+  line-height: 1.4;
+}
 .bubble {
   max-width: min(82%, 35rem);
   padding: .86em 1em;
@@ -300,6 +305,11 @@ button, input { font: inherit; }
   .icon-button { width: 1.6em; height: 1.6em; font-size: .75rem; }
   .messages { padding: .85em .8em .45em; }
   .bubble { max-width: 88%; }
+  .messages > .message:first-child .bubble {
+    padding: .55em .7em;
+    font-size: .64rem;
+    line-height: 1.35;
+  }
   .suggestions {
     gap: .4em;
     padding: .45em .7em .65em;
