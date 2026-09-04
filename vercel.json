@@ -6,8 +6,16 @@
       "source": "/(.*)",
       "headers": [
         {
-          "key": "Cross-Origin-Resource-Policy",
-          "value": "cross-origin"
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors *"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache, must-revalidate, max-age=0"
         }
       ]
     }
