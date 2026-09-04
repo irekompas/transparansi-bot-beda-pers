@@ -61,16 +61,16 @@ button, input { font: inherit; }
 .chat-header {
   display: flex;
   align-items: center;
-  gap: .5em;
-  padding: .45em .65em;
+  gap: .4em;
+  padding: .25em .5em;
   color: var(--white);
   background: var(--blue);
   border-bottom: .1em solid var(--gold);
 }
 
 .bot-avatar {
-  width: 2em;
-  height: 2em;
+  width: 1.65em;
+  height: 1.65em;
   flex: none;
   overflow: hidden;
   border-radius: 50%;
@@ -79,31 +79,16 @@ button, input { font: inherit; }
 .bot-avatar img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .identity { min-width: 0; }
 .identity h1 {
-  margin: 0 0 .08em;
+  margin: 0;
   overflow: hidden;
   color: var(--white);
   font-family: var(--font-ed);
-  font-size: .88rem;
+  font-size: .74rem;
   font-weight: 700;
   line-height: 1.2;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.identity p {
-  display: none;
-}
-
-.status-dot {
-  display: inline-block;
-  width: .64em;
-  height: .64em;
-  margin-right: .48em;
-  border-radius: 50%;
-  background: var(--white);
-}
-.status-dot.loading { background: var(--gold); animation: pulse 1s infinite; }
-.status-dot.error { background: var(--danger); }
-
 .language-picker {
   display: flex;
   flex: none;
@@ -116,15 +101,15 @@ button, input { font: inherit; }
   border-radius: 8px;
 }
 .language-switch button {
-  min-width: 4.8em;
-  height: 1.75em;
+  min-width: 4.55em;
+  height: 1.55em;
   padding: 0 .5em;
   border: 0;
   border-radius: 6px;
   color: var(--white);
   background: transparent;
   cursor: pointer;
-  font-size: .62rem;
+  font-size: .58rem;
   font-weight: 700;
 }
 .language-switch button.active {
@@ -134,8 +119,8 @@ button, input { font: inherit; }
 }
 
 .icon-button {
-  width: 1.75em;
-  height: 1.75em;
+  width: 1.55em;
+  height: 1.55em;
   flex: none;
   padding: 0;
   border: 1px solid rgba(255, 255, 255, .35);
@@ -143,7 +128,7 @@ button, input { font: inherit; }
   color: var(--white);
   background: transparent;
   cursor: pointer;
-  font-size: .85rem;
+  font-size: .75rem;
 }
 .icon-button:hover { background: rgba(255, 255, 255, .12); }
 
@@ -257,18 +242,15 @@ button, input { font: inherit; }
 }
 .chat-form button:hover { background: var(--blue-hover); }
 .chat-form input:disabled, .chat-form button:disabled { cursor: wait; opacity: .62; }
-.copyright,
-.credit {
+.copyright {
   margin: 0;
-  padding: 0 .5em;
+  padding: .12em .35em .18em;
   color: var(--grey-lt);
   background: var(--white);
   text-align: center;
-  font-size: .52rem;
+  font-size: .45rem;
   line-height: 1.1;
 }
-.copyright { padding-bottom: .3em; }
-.credit { display: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
 
 @keyframes pulse { 50% { opacity: .4; } }
@@ -279,24 +261,22 @@ button, input { font: inherit; }
 
 @media (max-width: 34rem) {
   .chat-header {
-    gap: .3em;
-    padding: .3em .4em;
+    gap: .25em;
+    padding: .2em .35em;
     border-bottom-width: .08em;
   }
-  .bot-avatar { width: 1.6em; height: 1.6em; }
+  .bot-avatar { width: 1.45em; height: 1.45em; }
   .identity { flex: 1; }
-  .identity h1 { max-width: 8rem; font-size: .7rem; }
-  .identity p { max-width: 8rem; font-size: .52rem; }
-  .status-dot { width: .5em; height: .5em; margin-right: .35em; }
+  .identity h1 { max-width: 8rem; font-size: .66rem; }
   .language-switch { padding: .1em; border-radius: 6px; }
   .language-switch button {
     min-width: 4.35em;
-    height: 1.65em;
+    height: 1.5em;
     padding: 0 .45em;
     border-radius: 5px;
-    font-size: .56rem;
+    font-size: .53rem;
   }
-  .icon-button { width: 1.6em; height: 1.6em; font-size: .75rem; }
+  .icon-button { width: 1.45em; height: 1.45em; font-size: .68rem; }
   .messages { padding: .85em .8em .45em; }
   .bubble { max-width: 88%; }
   .messages > .message:first-child .bubble {
@@ -312,6 +292,6 @@ button, input { font: inherit; }
 }
 
 @media (max-width: 24rem) {
-  .identity h1, .identity p { max-width: 5rem; }
+  .identity h1 { max-width: 5rem; }
   .language-switch button { min-width: 4.25em; padding-inline: .3em; }
 }

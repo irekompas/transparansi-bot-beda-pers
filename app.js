@@ -10,11 +10,8 @@ const elements = {
   suggestions: document.querySelector("#suggestions"),
   form: document.querySelector("#chatForm"),
   input: document.querySelector("#questionInput"),
-  statusDot: document.querySelector("#statusDot"),
-  statusText: document.querySelector("#statusText"),
   reload: document.querySelector("#reloadButton"),
   send: document.querySelector("#sendButton"),
-  credit: document.querySelector("#credit"),
   copyright: document.querySelector("#copyright"),
   languageButtons: [...document.querySelectorAll("[data-language]")],
 };
@@ -22,14 +19,12 @@ const elements = {
 const ui = {
   id: {
     loading: "Memuat data...",
-    ready: (count) => `${count} informasi tersedia`,
     error: "Sheet gagal dimuat",
     placeholder: "Tanyakan proses liputan, penulis, atau narasumber...",
     inputLabel: "Ketik pertanyaan",
     sendLabel: "Kirim pertanyaan",
     reloadLabel: "Muat ulang data",
     suggestionsLabel: "Saran pertanyaan",
-    credit: "Jawaban bersumber dari lembar transparansi editorial",
     copyright: "© 2026 Irene Sarwindaningrum untuk Kompas.id",
     welcome: "Silakan tanyakan proses penyusunan artikel ini. Harap tidak memasukkan data pribadi.",
     fallback: "Maaf, saya belum menemukan informasi yang cocok. Coba tanyakan dengan kalimat lain—saya akan berusaha membantu.",
@@ -40,14 +35,12 @@ const ui = {
   },
   en: {
     loading: "Loading data...",
-    ready: (count) => `${count} items available`,
     error: "Unable to load the Sheet",
     placeholder: "Ask about the reporting process, writer, or sources...",
     inputLabel: "Type a question",
     sendLabel: "Send question",
     reloadLabel: "Reload data",
     suggestionsLabel: "Suggested questions",
-    credit: "Answers are sourced from the editorial transparency sheet",
     copyright: "© 2026 Irene Sarwindaningrum for Kompas.id",
     welcome: "Ask me about how this article was prepared. Please do not enter personal data.",
     fallback: "Sorry, I couldn’t find a matching answer yet. Try asking in a different way—I’ll do my best to help.",
@@ -238,9 +231,8 @@ function similarity(query, item) {
   return matches / queryWords.length;
 }
 
-function setStatus(type, text) {
-  elements.statusDot.className = `status-dot ${type}`;
-  elements.statusText.textContent = text;
+function setStatus(type) {
+  elements.messages.setAttribute("aria-busy", String(type === "loading"));
 }
 
 function appendLinkedText(container, text) {
@@ -377,10 +369,9 @@ function applyLanguage(nextLanguage, resetConversation = true) {
   elements.reload.title = ui[language].reloadLabel;
   elements.reload.setAttribute("aria-label", ui[language].reloadLabel);
   elements.suggestions.setAttribute("aria-label", ui[language].suggestionsLabel);
-  elements.credit.textContent = ui[language].credit;
   elements.copyright.textContent = ui[language].copyright;
   createKnowledgeBase();
-  setStatus(records.length ? "" : "loading", records.length ? ui[language].ready(records.length) : ui[language].loading);
+  setStatus(records.length ? "" : "loading");
   showSuggestions();
   if (resetConversation) {
     elements.messages.replaceChildren();
